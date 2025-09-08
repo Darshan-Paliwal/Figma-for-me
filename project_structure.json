@@ -1,0 +1,362 @@
+{
+  "figma-clone": {
+    "README.md": "# DesignStudio - Mobile-First Design Collaboration Platform\n\nA production-ready Figma-like design and collaboration application built with React Native and modern web technologies.",
+    "packages": {
+      "mobile": {
+        "package.json": {
+          "name": "@designstudio/mobile",
+          "version": "1.0.0",
+          "description": "React Native mobile application",
+          "main": "index.js",
+          "scripts": {
+            "android": "react-native run-android",
+            "ios": "react-native run-ios",
+            "start": "react-native start",
+            "test": "jest",
+            "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+            "type-check": "tsc --noEmit"
+          },
+          "dependencies": {
+            "react": "18.2.0",
+            "react-native": "0.73.6",
+            "react-native-svg": "^15.1.0",
+            "react-native-vector-icons": "^10.0.3",
+            "react-native-gesture-handler": "^2.14.0",
+            "react-native-reanimated": "^3.6.2",
+            "react-native-webrtc": "^118.0.0",
+            "@react-native-async-storage/async-storage": "^1.21.0",
+            "@react-navigation/native": "^6.1.9",
+            "@react-navigation/stack": "^6.3.20",
+            "socket.io-client": "^4.7.4",
+            "@supabase/supabase-js": "^2.39.0",
+            "react-native-url-polyfill": "^2.0.0"
+          },
+          "devDependencies": {
+            "@babel/core": "^7.20.0",
+            "@babel/preset-env": "^7.20.0",
+            "@babel/runtime": "^7.20.0",
+            "@react-native/eslint-config": "^0.73.1",
+            "@react-native/metro-config": "^0.73.2",
+            "@react-native/typescript-config": "^0.73.1",
+            "@types/react": "^18.0.24",
+            "@types/react-test-renderer": "^18.0.0",
+            "babel-jest": "^29.2.1",
+            "eslint": "^8.19.0",
+            "jest": "^29.2.1",
+            "metro-react-native-babel-preset": "0.73.5",
+            "prettier": "^2.4.1",
+            "react-test-renderer": "18.2.0",
+            "typescript": "4.8.4"
+          }
+        },
+        "tsconfig.json": {
+          "extends": "@react-native/typescript-config/tsconfig.json",
+          "compilerOptions": {
+            "strict": true,
+            "noImplicitAny": true,
+            "strictNullChecks": true,
+            "strictFunctionTypes": true,
+            "noImplicitReturns": true,
+            "noFallthroughCasesInSwitch": true,
+            "moduleResolution": "node",
+            "allowSyntheticDefaultImports": true,
+            "esModuleInterop": true,
+            "skipLibCheck": true,
+            "resolveJsonModule": true,
+            "baseUrl": "./src",
+            "paths": {
+              "@/*": [
+                "*"
+              ],
+              "@components/*": [
+                "components/*"
+              ],
+              "@screens/*": [
+                "screens/*"
+              ],
+              "@services/*": [
+                "services/*"
+              ],
+              "@utils/*": [
+                "utils/*"
+              ],
+              "@types/*": [
+                "types/*"
+              ]
+            }
+          },
+          "include": [
+            "src/**/*",
+            "index.js"
+          ],
+          "exclude": [
+            "node_modules",
+            "build",
+            "dist"
+          ]
+        },
+        "src": {
+          "App.tsx": "// Main React Native App Component\nimport React from 'react';\nimport { NavigationContainer } from '@react-navigation/native';\nimport { createStackNavigator } from '@react-navigation/stack';\nimport { DesignCanvas } from './screens/DesignCanvas';\nimport { AuthProvider } from './providers/AuthProvider';\nimport { CollaborationProvider } from './providers/CollaborationProvider';\n\nconst Stack = createStackNavigator();\n\nexport default function App(): React.JSX.Element {\n  return (\n    <AuthProvider>\n      <CollaborationProvider>\n        <NavigationContainer>\n          <Stack.Navigator screenOptions={{ headerShown: false }}>\n            <Stack.Screen name=\"Canvas\" component={DesignCanvas} />\n          </Stack.Navigator>\n        </NavigationContainer>\n      </CollaborationProvider>\n    </AuthProvider>\n  );\n}",
+          "components": {
+            "ToolPalette.tsx": "// Tool palette component",
+            "Canvas": {
+              "CanvasView.tsx": "// Main canvas rendering component",
+              "VectorRenderer.tsx": "// SVG vector graphics renderer",
+              "ObjectManager.tsx": "// Manages canvas objects"
+            },
+            "Panels": {
+              "PropertyPanel.tsx": "// Object property editor",
+              "LayerPanel.tsx": "// Layer management",
+              "ColorPicker.tsx": "// Color selection component"
+            },
+            "Collaboration": {
+              "LiveCursors.tsx": "// Real-time cursor display",
+              "UserList.tsx": "// Online users component",
+              "Comments.tsx": "// Comment system"
+            }
+          },
+          "screens": {
+            "DesignCanvas.tsx": "// Main design interface screen",
+            "ProjectsScreen.tsx": "// Project management screen",
+            "ExportScreen.tsx": "// Export options screen"
+          },
+          "services": {
+            "CanvasService.ts": "// Canvas operations service",
+            "CollaborationService.ts": "// Real-time collaboration",
+            "VectorEngine.ts": "// Vector graphics engine",
+            "ExportService.ts": "// Export functionality"
+          },
+          "types": {
+            "Canvas.ts": "// Canvas-related types",
+            "Collaboration.ts": "// Collaboration types",
+            "Vector.ts": "// Vector graphics types"
+          },
+          "utils": {
+            "Vector.ts": "// Vector math utilities",
+            "Transform.ts": "// Transformation utilities",
+            "Performance.ts": "// Performance optimization"
+          }
+        }
+      },
+      "web": {
+        "package.json": {
+          "name": "@designstudio/web",
+          "version": "1.0.0",
+          "description": "Progressive Web App for desktop collaboration",
+          "scripts": {
+            "dev": "vite",
+            "build": "tsc && vite build",
+            "preview": "vite preview",
+            "test": "vitest",
+            "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+            "type-check": "tsc --noEmit"
+          },
+          "dependencies": {
+            "react": "^18.2.0",
+            "react-dom": "^18.2.0",
+            "fabric": "^5.3.0",
+            "socket.io-client": "^4.7.4",
+            "@supabase/supabase-js": "^2.39.0",
+            "framer-motion": "^10.16.16",
+            "zustand": "^4.4.7",
+            "react-hotkeys-hook": "^4.4.1",
+            "react-color": "^2.19.3",
+            "file-saver": "^2.0.5"
+          },
+          "devDependencies": {
+            "@types/react": "^18.2.43",
+            "@types/react-dom": "^18.2.17",
+            "@typescript-eslint/eslint-plugin": "^6.14.0",
+            "@typescript-eslint/parser": "^6.14.0",
+            "@vitejs/plugin-react": "^4.2.1",
+            "eslint": "^8.55.0",
+            "eslint-plugin-react-hooks": "^4.6.0",
+            "eslint-plugin-react-refresh": "^0.4.5",
+            "typescript": "^5.2.2",
+            "vite": "^5.0.8",
+            "vite-plugin-pwa": "^0.17.4",
+            "vitest": "^1.0.4"
+          }
+        },
+        "vite.config.ts": "import { defineConfig } from 'vite';\nimport react from '@vitejs/plugin-react';\nimport { VitePWA } from 'vite-plugin-pwa';\n\nexport default defineConfig({\n  plugins: [\n    react(),\n    VitePWA({\n      registerType: 'autoUpdate',\n      workbox: {\n        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],\n        runtimeCaching: [\n          {\n            urlPattern: /^https:\\/\\/api\\./,\n            handler: 'NetworkFirst',\n            options: {\n              cacheName: 'api-cache',\n              cacheableResponse: {\n                statuses: [0, 200]\n              }\n            }\n          }\n        ]\n      },\n      manifest: {\n        name: 'DesignStudio',\n        short_name: 'DesignStudio',\n        description: 'Mobile-First Design Collaboration Platform',\n        theme_color: '#21808d',\n        background_color: '#fcfcf9',\n        display: 'standalone',\n        icons: [\n          {\n            src: 'pwa-192x192.png',\n            sizes: '192x192',\n            type: 'image/png'\n          },\n          {\n            src: 'pwa-512x512.png', \n            sizes: '512x512',\n            type: 'image/png'\n          }\n        ]\n      }\n    })\n  ],\n  resolve: {\n    alias: {\n      '@': '/src'\n    }\n  }\n});",
+        "src": {
+          "main.tsx": "// PWA entry point",
+          "components": {
+            "DesignCanvas.tsx": "// Desktop canvas component",
+            "ToolbarDesktop.tsx": "// Desktop toolbar"
+          }
+        }
+      },
+      "backend": {
+        "package.json": {
+          "name": "@designstudio/backend",
+          "version": "1.0.0",
+          "description": "Node.js backend with real-time collaboration",
+          "main": "dist/index.js",
+          "scripts": {
+            "dev": "tsx watch src/index.ts",
+            "build": "tsc",
+            "start": "node dist/index.js",
+            "test": "jest",
+            "lint": "eslint src --ext .ts",
+            "prisma:generate": "prisma generate",
+            "prisma:migrate": "prisma migrate dev",
+            "prisma:push": "prisma db push",
+            "prisma:studio": "prisma studio"
+          },
+          "dependencies": {
+            "express": "^4.18.2",
+            "socket.io": "^4.7.4",
+            "cors": "^2.8.5",
+            "helmet": "^7.1.0",
+            "compression": "^1.7.4",
+            "express-rate-limit": "^7.1.5",
+            "@prisma/client": "^5.7.1",
+            "prisma": "^5.7.1",
+            "bcryptjs": "^2.4.3",
+            "jsonwebtoken": "^9.0.2",
+            "zod": "^3.22.4",
+            "winston": "^3.11.0",
+            "redis": "^4.6.10",
+            "dotenv": "^16.3.1",
+            "multer": "^1.4.5-lts.1",
+            "sharp": "^0.33.1"
+          },
+          "devDependencies": {
+            "@types/node": "^20.10.4",
+            "@types/express": "^4.17.21",
+            "@types/cors": "^2.8.17",
+            "@types/compression": "^1.7.5",
+            "@types/bcryptjs": "^2.4.6",
+            "@types/jsonwebtoken": "^9.0.5",
+            "@types/multer": "^1.4.11",
+            "typescript": "^5.3.3",
+            "tsx": "^4.6.2",
+            "jest": "^29.7.0",
+            "@types/jest": "^29.5.8",
+            "eslint": "^8.55.0",
+            "@typescript-eslint/eslint-plugin": "^6.14.0",
+            "@typescript-eslint/parser": "^6.14.0"
+          }
+        },
+        "tsconfig.json": {
+          "compilerOptions": {
+            "target": "ES2022",
+            "module": "commonjs",
+            "lib": [
+              "ES2022"
+            ],
+            "outDir": "./dist",
+            "rootDir": "./src",
+            "strict": true,
+            "esModuleInterop": true,
+            "skipLibCheck": true,
+            "forceConsistentCasingInFileNames": true,
+            "resolveJsonModule": true,
+            "declaration": true,
+            "declarationMap": true,
+            "sourceMap": true,
+            "removeComments": true,
+            "noImplicitReturns": true,
+            "noFallthroughCasesInSwitch": true,
+            "moduleResolution": "node",
+            "baseUrl": "./src",
+            "paths": {
+              "@/*": [
+                "*"
+              ],
+              "@controllers/*": [
+                "controllers/*"
+              ],
+              "@services/*": [
+                "services/*"
+              ],
+              "@models/*": [
+                "models/*"
+              ],
+              "@utils/*": [
+                "utils/*"
+              ],
+              "@types/*": [
+                "types/*"
+              ]
+            }
+          },
+          "include": [
+            "src/**/*"
+          ],
+          "exclude": [
+            "node_modules",
+            "dist",
+            "**/*.test.ts"
+          ]
+        },
+        "prisma": {
+          "schema.prisma": "\n// Prisma schema for DesignStudio\ngenerator client {\n  provider = \"prisma-client-js\"\n}\n\ndatasource db {\n  provider = \"mongodb\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id        String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  email     String   @unique\n  name      String\n  avatar    String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  projects     Project[]\n  comments     Comment[]\n  sessions     Session[]\n  collaborations Collaboration[]\n\n  @@map(\"users\")\n}\n\nmodel Project {\n  id          String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  name        String\n  description String?\n  thumbnail   String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n  ownerId     String   @db.ObjectId\n\n  // Relations\n  owner         User            @relation(fields: [ownerId], references: [id])\n  artboards     Artboard[]\n  collaborations Collaboration[]\n  comments      Comment[]\n  versions      Version[]\n\n  @@map(\"projects\")\n}\n\nmodel Artboard {\n  id        String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  name      String\n  width     Int\n  height    Int\n  x         Float    @default(0)\n  y         Float    @default(0)\n  objects   Json     @default(\"[]\")\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  projectId String   @db.ObjectId\n\n  // Relations\n  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)\n\n  @@map(\"artboards\")\n}\n\nmodel Collaboration {\n  id          String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  role        String   // \"owner\", \"editor\", \"viewer\"\n  permissions Json     @default(\"{}\")\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n  userId      String   @db.ObjectId\n  projectId   String   @db.ObjectId\n\n  // Relations\n  user    User    @relation(fields: [userId], references: [id])\n  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, projectId])\n  @@map(\"collaborations\")\n}\n\nmodel Comment {\n  id        String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  content   String\n  x         Float\n  y         Float\n  resolved  Boolean  @default(false)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  authorId  String   @db.ObjectId\n  projectId String   @db.ObjectId\n\n  // Relations\n  author  User    @relation(fields: [authorId], references: [id])\n  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)\n  replies Reply[]\n\n  @@map(\"comments\")\n}\n\nmodel Reply {\n  id        String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  content   String\n  createdAt DateTime @default(now())\n  commentId String   @db.ObjectId\n  authorId  String   @db.ObjectId\n\n  // Relations\n  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)\n\n  @@map(\"replies\")\n}\n\nmodel Session {\n  id        String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  cursor    Json?\n  selection Json?\n  isActive  Boolean  @default(true)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  userId    String   @db.ObjectId\n  projectId String   @db.ObjectId\n\n  // Relations\n  user User @relation(fields: [userId], references: [id])\n\n  @@map(\"sessions\")\n}\n\nmodel Version {\n  id          String   @id @default(auto()) @map(\"_id\") @db.ObjectId\n  name        String\n  description String?\n  snapshot    Json\n  createdAt   DateTime @default(now())\n  projectId   String   @db.ObjectId\n\n  // Relations\n  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)\n\n  @@map(\"versions\")\n}\n"
+        },
+        "src": {
+          "index.ts": "// Main server entry point",
+          "controllers": {
+            "AuthController.ts": "// Authentication endpoints",
+            "ProjectController.ts": "// Project management",
+            "CollaborationController.ts": "// Real-time collaboration"
+          },
+          "services": {
+            "SocketService.ts": "// WebSocket management",
+            "OperationalTransform.ts": "// OT implementation",
+            "CacheService.ts": "// Redis caching"
+          },
+          "middleware": {
+            "auth.ts": "// Authentication middleware",
+            "validation.ts": "// Request validation"
+          },
+          "types": {
+            "api.ts": "// API type definitions",
+            "socket.ts": "// Socket event types"
+          }
+        }
+      },
+      "shared": {
+        "package.json": {
+          "name": "@designstudio/shared",
+          "version": "1.0.0",
+          "description": "Shared types and utilities",
+          "main": "dist/index.js",
+          "types": "dist/index.d.ts",
+          "scripts": {
+            "build": "tsc",
+            "dev": "tsc --watch",
+            "test": "jest"
+          },
+          "dependencies": {
+            "zod": "^3.22.4"
+          },
+          "devDependencies": {
+            "typescript": "^5.3.3",
+            "@types/node": "^20.10.4",
+            "jest": "^29.7.0",
+            "@types/jest": "^29.5.8"
+          }
+        },
+        "src": {
+          "types": {
+            "Canvas.ts": "// Shared canvas types",
+            "User.ts": "// User-related types",
+            "Project.ts": "// Project structure types"
+          },
+          "utils": {
+            "Vector.ts": "// Vector math utilities",
+            "Validation.ts": "// Shared validation schemas"
+          }
+        }
+      }
+    },
+    "docker-compose.yml": "version: '3.8'\n\nservices:\n  # MongoDB Database\n  mongodb:\n    image: mongo:7\n    container_name: designstudio-mongodb\n    restart: unless-stopped\n    environment:\n      MONGO_INITDB_ROOT_USERNAME: admin\n      MONGO_INITDB_ROOT_PASSWORD: password\n      MONGO_INITDB_DATABASE: designstudio\n    ports:\n      - \"27017:27017\"\n    volumes:\n      - mongodb_data:/data/db\n      - ./docker/mongodb/init:/docker-entrypoint-initdb.d\n    networks:\n      - designstudio-network\n\n  # Redis Cache\n  redis:\n    image: redis:7-alpine\n    container_name: designstudio-redis\n    restart: unless-stopped\n    ports:\n      - \"6379:6379\"\n    volumes:\n      - redis_data:/data\n    networks:\n      - designstudio-network\n\n  # Backend API\n  backend:\n    build:\n      context: ./packages/backend\n      dockerfile: Dockerfile\n    container_name: designstudio-backend\n    restart: unless-stopped\n    environment:\n      NODE_ENV: development\n      PORT: 3000\n      DATABASE_URL: mongodb://admin:password@mongodb:27017/designstudio?authSource=admin\n      REDIS_URL: redis://redis:6379\n      JWT_SECRET: your-jwt-secret\n      SUPABASE_URL: ${SUPABASE_URL}\n      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}\n    ports:\n      - \"3000:3000\"\n    depends_on:\n      - mongodb\n      - redis\n    volumes:\n      - ./packages/backend:/app\n      - /app/node_modules\n    networks:\n      - designstudio-network\n\n  # Web PWA\n  web:\n    build:\n      context: ./packages/web\n      dockerfile: Dockerfile\n    container_name: designstudio-web\n    restart: unless-stopped\n    environment:\n      VITE_API_URL: http://localhost:3000\n      VITE_SUPABASE_URL: ${SUPABASE_URL}\n      VITE_SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}\n    ports:\n      - \"5173:5173\"\n    depends_on:\n      - backend\n    volumes:\n      - ./packages/web:/app\n      - /app/node_modules\n    networks:\n      - designstudio-network\n\n  # Nginx Load Balancer\n  nginx:\n    image: nginx:alpine\n    container_name: designstudio-nginx\n    restart: unless-stopped\n    ports:\n      - \"80:80\"\n      - \"443:443\"\n    volumes:\n      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf\n      - ./docker/nginx/ssl:/etc/nginx/ssl\n    depends_on:\n      - backend\n      - web\n    networks:\n      - designstudio-network\n\nvolumes:\n  mongodb_data:\n  redis_data:\n\nnetworks:\n  designstudio-network:\n    driver: bridge\n",
+    ".github": {
+      "workflows": {
+        "ci-cd.yml": "name: CI/CD Pipeline\n\non:\n  push:\n    branches: [main, develop]\n  pull_request:\n    branches: [main, develop]\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    strategy:\n      matrix:\n        node-version: [18.x, 20.x]\n\n    steps:\n      - uses: actions/checkout@v4\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v4\n        with:\n          node-version: ${{ matrix.node-version }}\n          cache: 'yarn'\n\n      - name: Install dependencies\n        run: yarn install --frozen-lockfile\n\n      - name: Type checking\n        run: yarn type-check\n\n      - name: Linting\n        run: yarn lint\n\n      - name: Unit tests\n        run: yarn test\n\n      - name: Build packages\n        run: yarn build\n\n  build-mobile-android:\n    needs: test\n    runs-on: ubuntu-latest\n    if: github.ref == 'refs/heads/main'\n\n    steps:\n      - uses: actions/checkout@v4\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v4\n        with:\n          node-version: 18\n          cache: 'yarn'\n\n      - name: Setup Java\n        uses: actions/setup-java@v4\n        with:\n          distribution: 'temurin'\n          java-version: '17'\n\n      - name: Setup Android SDK\n        uses: android-actions/setup-android@v3\n\n      - name: Install dependencies\n        run: |\n          cd packages/mobile\n          yarn install\n\n      - name: Build Android\n        run: |\n          cd packages/mobile\n          cd android\n          ./gradlew assembleRelease\n\n      - name: Upload APK\n        uses: actions/upload-artifact@v4\n        with:\n          name: android-apk\n          path: packages/mobile/android/app/build/outputs/apk/release/\n\n  build-mobile-ios:\n    needs: test\n    runs-on: macos-latest\n    if: github.ref == 'refs/heads/main'\n\n    steps:\n      - uses: actions/checkout@v4\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v4\n        with:\n          node-version: 18\n          cache: 'yarn'\n\n      - name: Install dependencies\n        run: |\n          cd packages/mobile\n          yarn install\n          cd ios\n          pod install\n\n      - name: Build iOS\n        run: |\n          cd packages/mobile\n          npx react-native run-ios --configuration Release\n\n  deploy-staging:\n    needs: [test, build-mobile-android]\n    runs-on: ubuntu-latest\n    if: github.ref == 'refs/heads/develop'\n\n    steps:\n      - uses: actions/checkout@v4\n\n      - name: Deploy to staging\n        env:\n          DEPLOY_HOST: ${{ secrets.STAGING_HOST }}\n          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}\n          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}\n        run: |\n          echo \"Deploying to staging environment\"\n          # Add deployment scripts here\n\n  deploy-production:\n    needs: [test, build-mobile-android, build-mobile-ios]\n    runs-on: ubuntu-latest\n    if: github.ref == 'refs/heads/main'\n\n    steps:\n      - uses: actions/checkout@v4\n\n      - name: Deploy to production\n        env:\n          DEPLOY_HOST: ${{ secrets.PRODUCTION_HOST }}\n          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}\n          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}\n        run: |\n          echo \"Deploying to production environment\"\n          # Add deployment scripts here\n",
+        "mobile-release.yml": "name: Mobile Release\n\non:\n  push:\n    tags:\n      - 'v*'\n\njobs:\n  release-android:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v4\n        with:\n          node-version: 18\n\n      - name: Setup Java\n        uses: actions/setup-java@v4\n        with:\n          distribution: 'temurin'\n          java-version: '17'\n\n      - name: Decode Keystore\n        env:\n          ENCODED_STRING: ${{ secrets.KEYSTORE_BASE64 }}\n        run: |\n          echo $ENCODED_STRING | base64 -di > packages/mobile/android/app/my-upload-key.keystore\n\n      - name: Build Android App Bundle\n        env:\n          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}\n          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}\n          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}\n        run: |\n          cd packages/mobile\n          yarn install\n          cd android\n          ./gradlew bundleRelease\n\n      - name: Upload to Play Console\n        uses: r0adkll/upload-google-play@v1\n        with:\n          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}\n          packageName: com.designstudio.app\n          releaseFiles: packages/mobile/android/app/build/outputs/bundle/release/app-release.aab\n          track: production\n\n  release-ios:\n    runs-on: macos-latest\n    steps:\n      - uses: actions/checkout@v4\n\n      - name: Setup Node.js\n        uses: actions/setup-node@v4\n        with:\n          node-version: 18\n\n      - name: Install dependencies\n        run: |\n          cd packages/mobile\n          yarn install\n          cd ios\n          pod install\n\n      - name: Build and upload to TestFlight\n        env:\n          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}\n          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}\n        run: |\n          cd packages/mobile/ios\n          fastlane release\n"
+      }
+    }
+  }
+}

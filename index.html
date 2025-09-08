@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DesignStudio - Mobile-First Design Collaboration</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22DesignStudio%22,%22short_name%22:%22DesignStudio%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23fcfcf9%22,%22theme_color%22:%22%2321808d%22}">
+    <meta name="theme-color" content="#21808d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landing-page" class="landing-page">
+        <div class="landing-container">
+            <div class="landing-header">
+                <h1>DesignStudio</h1>
+                <p>Professional mobile-first design collaboration platform</p>
+            </div>
+            <div class="landing-actions">
+                <button class="btn btn--primary btn--lg" onclick="app.startNewProject()">
+                    Create New Project
+                </button>
+                <button class="btn btn--outline btn--lg" onclick="app.showProjects()">
+                    Open Recent
+                </button>
+            </div>
+            <div class="landing-features">
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">📱</div>
+                        <h3>Mobile-First</h3>
+                        <p>Optimized for touch interfaces</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🤝</div>
+                        <h3>Real-time Collaboration</h3>
+                        <p>Work together seamlessly</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Advanced Vector Tools</h3>
+                        <p>Professional drawing capabilities</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Animations</h3>
+                        <p>Bring designs to life</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Interface -->
+    <div id="app-interface" class="app-interface hidden">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <div class="mobile-header-content">
+                <button class="mobile-menu-btn" onclick="app.toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <h1 class="project-title">Mobile App Design</h1>
+                <div class="mobile-actions">
+                    <button class="btn btn--sm btn--outline" onclick="app.showExportDialog()">Export</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Desktop Top Toolbar -->
+        <div class="top-toolbar">
+            <div class="toolbar-left">
+                <button class="btn btn--sm" onclick="app.goToLanding()">← DesignStudio</button>
+                <span class="project-name">Mobile App Design</span>
+            </div>
+            <div class="toolbar-center">
+                <button class="toolbar-btn" onclick="app.undo()">↶</button>
+                <button class="toolbar-btn" onclick="app.redo()">↷</button>
+                <div class="zoom-controls">
+                    <button class="toolbar-btn" onclick="app.zoomOut()">−</button>
+                    <span class="zoom-level">100%</span>
+                    <button class="toolbar-btn" onclick="app.zoomIn()">+</button>
+                </div>
+            </div>
+            <div class="toolbar-right">
+                <div class="collaboration-users">
+                    <div class="user-avatar" style="background-color: #FF6B6B;">AC</div>
+                    <div class="user-avatar" style="background-color: #4ECDC4;">SK</div>
+                </div>
+                <button class="btn btn--primary btn--sm" onclick="app.showExportDialog()">Export</button>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Left Panel -->
+            <div class="left-panel" id="left-panel">
+                <!-- Tools Palette -->
+                <div class="panel-section">
+                    <h3 class="panel-title">Tools</h3>
+                    <div class="tools-grid">
+                        <button class="tool-btn active" data-tool="select" title="Selection (V)">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/>
+                            </svg>
+                        </button>
+                        <button class="tool-btn" data-tool="pen" title="Pen Tool (P)">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                            </svg>
+                        </button>
+                        <button class="tool-btn" data-tool="rectangle" title="Rectangle (R)">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
+                        </button>
+                        <button class="tool-btn" data-tool="circle" title="Circle (O)">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="9"/>
+                            </svg>
+                        </button>
+                        <button class="tool-btn" data-tool="text" title="Text (T)">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="4 7 4 4 20 4 20 7"/>
+                                <line x1="9" y1="20" x2="15" y2="20"/>
+                                <line x1="12" y1="4" x2="12" y2="20"/>
+                            </svg>
+                        </button>
+                        <button class="tool-btn" data-tool="line" title="Line (L)">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="4" y1="20" x2="20" y2="4"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Layers Panel -->
+                <div class="panel-section">
+                    <h3 class="panel-title">Layers</h3>
+                    <div class="layers-list" id="layers-list">
+                        <!-- Layers will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Comments Panel -->
+                <div class="panel-section">
+                    <h3 class="panel-title">Comments</h3>
+                    <div class="comments-list" id="comments-list">
+                        <!-- Comments will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canvas Area -->
+            <div class="canvas-container">
+                <div class="canvas-wrapper" id="canvas-wrapper">
+                    <svg id="main-canvas" class="design-canvas" viewBox="0 0 375 812">
+                        <!-- Canvas content will be rendered here -->
+                        <defs>
+                            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--color-border)" stroke-width="0.5" opacity="0.3"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid)"/>
+                        <!-- Artboard -->
+                        <rect id="artboard" x="0" y="0" width="375" height="812" fill="var(--color-surface)" stroke="var(--color-border)" stroke-width="2"/>
+                    </svg>
+                    
+                    <!-- Live Cursors -->
+                    <div class="live-cursors" id="live-cursors">
+                        <!-- Collaboration cursors will be rendered here -->
+                    </div>
+
+                    <!-- Comment Markers -->
+                    <div class="comment-markers" id="comment-markers">
+                        <!-- Comment markers will be rendered here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel -->
+            <div class="right-panel" id="right-panel">
+                <!-- Properties Panel -->
+                <div class="panel-section">
+                    <h3 class="panel-title">Properties</h3>
+                    <div class="properties-content" id="properties-content">
+                        <div class="no-selection">
+                            <p>Select an object to edit properties</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animation Panel -->
+                <div class="panel-section">
+                    <h3 class="panel-title">Animation</h3>
+                    <div class="animation-content">
+                        <div class="timeline-controls">
+                            <button class="btn btn--sm btn--outline">Add Keyframe</button>
+                            <button class="btn btn--sm btn--outline">Play</button>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-track">
+                                <div class="keyframe" style="left: 20%"></div>
+                                <div class="keyframe" style="left: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color Palette -->
+                <div class="panel-section">
+                    <h3 class="panel-title">Colors</h3>
+                    <div class="color-palette">
+                        <!-- Color swatches will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Bottom Toolbar -->
+        <div class="bottom-toolbar">
+            <div class="bottom-toolbar-content">
+                <button class="bottom-tab active" data-panel="tools">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                    <span>Tools</span>
+                </button>
+                <button class="bottom-tab" data-panel="layers">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 22 8.5 12 15 2 8.5 12 2"/>
+                        <polyline points="2 17.5 12 24 22 17.5"/>
+                        <polyline points="2 12.5 12 19 22 12.5"/>
+                    </svg>
+                    <span>Layers</span>
+                </button>
+                <button class="bottom-tab" data-panel="properties">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                    </svg>
+                    <span>Properties</span>
+                </button>
+                <button class="bottom-tab" data-panel="comments">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span>Comments</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay hidden" id="mobile-menu">
+            <div class="mobile-menu-content">
+                <div class="mobile-menu-header">
+                    <h2>Menu</h2>
+                    <button class="close-menu" onclick="app.toggleMobileMenu()">×</button>
+                </div>
+                <div class="mobile-menu-items">
+                    <button class="mobile-menu-item" onclick="app.showExportDialog()">
+                        Export Project
+                    </button>
+                    <button class="mobile-menu-item" onclick="app.showAnimationDialog()">
+                        Animation Timeline
+                    </button>
+                    <button class="mobile-menu-item" onclick="app.showSettingsDialog()">
+                        Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal hidden" id="export-modal">
+        <div class="modal-backdrop" onclick="app.closeModal('export-modal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Export Design</h3>
+                <button class="modal-close" onclick="app.closeModal('export-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Format</label>
+                    <select class="form-control" id="export-format">
+                        <option value="png">PNG</option>
+                        <option value="svg">SVG</option>
+                        <option value="pdf">PDF</option>
+                        <option value="jpg">JPEG</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Scale</label>
+                    <select class="form-control" id="export-scale">
+                        <option value="1">1x</option>
+                        <option value="2">2x</option>
+                        <option value="3">3x</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Quality</label>
+                    <select class="form-control" id="export-quality">
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" onclick="app.closeModal('export-modal')">Cancel</button>
+                <button class="btn btn--primary" onclick="app.exportDesign()">Export</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Animation Timeline Modal -->
+    <div class="modal hidden" id="animation-modal">
+        <div class="modal-backdrop" onclick="app.closeModal('animation-modal')"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>Animation Timeline</h3>
+                <button class="modal-close" onclick="app.closeModal('animation-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="animation-timeline">
+                    <div class="timeline-header">
+                        <div class="timeline-controls">
+                            <button class="btn btn--sm">Play</button>
+                            <button class="btn btn--sm">Pause</button>
+                            <span class="timeline-position">0:00 / 2:00</span>
+                        </div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-layers">
+                            <div class="timeline-layer">
+                                <span>Rectangle</span>
+                                <div class="timeline-track">
+                                    <div class="keyframe" style="left: 10%"></div>
+                                    <div class="keyframe" style="left: 50%"></div>
+                                    <div class="keyframe" style="left: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
